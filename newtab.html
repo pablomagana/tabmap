@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nueva Pestaña</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+      padding: 0 20px;
+    }
+
+    h1 {
+      color: white;
+      font-size: 36px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      margin: 0;
+    }
+
+    .actions-bar {
+      display: none;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .actions-bar.visible {
+      display: flex;
+    }
+
+    .action-btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: white;
+    }
+
+    .action-btn.open {
+      background-color: #10b981;
+    }
+
+    .action-btn.open:hover {
+      background-color: #059669;
+    }
+
+    .action-btn.delete {
+      background-color: #ef4444;
+    }
+
+    .action-btn.delete:hover {
+      background-color: #dc2626;
+    }
+
+    .selected-count {
+      color: white;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .deselect-btn {
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 12px;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+      text-decoration: underline;
+    }
+
+    .deselect-btn:hover {
+      color: white;
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    #tabsContainer {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 20px;
+      position: relative;
+      min-height: 400px;
+    }
+
+    .tab-card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      position: relative;
+      border: 3px solid transparent;
+    }
+
+    .tab-card.selected {
+      border-color: #667eea;
+      background-color: #f0f4ff;
+    }
+
+    .tab-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .tab-card-content {
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .tab-checkbox {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: #667eea;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .tab-card:hover .tab-checkbox {
+      opacity: 1;
+    }
+
+    .tab-checkbox:checked {
+      opacity: 1;
+    }
+
+    .delete-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      opacity: 0;
+      padding: 0;
+      width: 18px;
+      height: 18px;
+    }
+
+    .delete-btn svg {
+      width: 18px;
+      height: 18px;
+      stroke: #ef4444;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .tab-card:hover .delete-btn {
+      opacity: 1;
+    }
+
+    .delete-btn:hover {
+      transform: scale(1.15);
+    }
+
+    .delete-btn:hover svg {
+      stroke: #dc2626;
+    }
+
+    .tab-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 10px;
+      padding-right: 30px;
+      padding-left: 30px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .tab-url {
+      font-size: 14px;
+      color: #666;
+      padding-right: 30px;
+      padding-left: 30px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .empty-state {
+      text-align: center;
+      color: white;
+      padding: 60px 20px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+    }
+
+    .empty-state-icon {
+      font-size: 80px;
+      margin-bottom: 20px;
+    }
+
+    .empty-state-text {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .empty-state-subtext {
+      font-size: 16px;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Pestañas Guardadas</h1>
+      <div id="actionsBar" class="actions-bar">
+        <span id="selectedCount" class="selected-count"></span>
+        <button id="deselectBtn" class="deselect-btn">Deseleccionar</button>
+        <button id="openSelectedBtn" class="action-btn open">Abrir seleccionadas</button>
+        <button id="deleteSelectedBtn" class="action-btn delete">Eliminar seleccionadas</button>
+      </div>
+    </div>
+    <div id="tabsContainer"></div>
+  </div>
+  <script src="newtab.js"></script>
+</body>
+</html>

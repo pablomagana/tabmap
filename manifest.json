@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "TabMap",
+  "version": "1.0",
+  "description": "Guarda todas las pestañas abiertas y las muestra en la nueva pestaña",
+  "permissions": [
+    "tabs",
+    "storage"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "tabmap.png"
+  },
+  "icons": {
+    "16": "tabmap.png",
+    "48": "tabmap.png",
+    "128": "tabmap.png"
+  },
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}
