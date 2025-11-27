@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nueva Pestaña</title>
+  <title>TabMap</title>
   <style>
     * {
       margin: 0;
@@ -19,8 +19,15 @@
     }
 
     .container {
-      max-width: 1200px;
+      max-width: 100%;
       margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    @media (min-width: 1400px) {
+      .container {
+        max-width: 1800px;
+      }
     }
 
     .header {
@@ -31,11 +38,39 @@
       padding: 0 20px;
     }
 
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
     h1 {
       color: white;
       font-size: 36px;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
       margin: 0;
+    }
+
+    .header-controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .toggle-add-tab-btn {
+      padding: 10px 20px;
+      background-color: #667eea;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .toggle-add-tab-btn:hover {
+      background-color: #5568d3;
     }
 
     .actions-bar {
@@ -99,9 +134,9 @@
     }
 
     #tabsContainer {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
       padding: 20px;
       position: relative;
       min-height: 400px;
@@ -115,6 +150,7 @@
       transition: all 0.3s ease;
       position: relative;
       border: 3px solid transparent;
+      height: fit-content;
     }
 
     .tab-card.selected {
@@ -238,21 +274,258 @@
       font-size: 16px;
       opacity: 0.9;
     }
+
+    .controls-section {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 0 20px 20px 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      display: none;
+    }
+
+    .controls-section.visible {
+      display: block;
+    }
+
+    .add-tab-form {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .add-tab-form input {
+      padding: 10px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: border-color 0.3s ease;
+      width: 100%;
+    }
+
+    .add-tab-form input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .add-tab-form select {
+      padding: 10px 15px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      background-color: white;
+      transition: border-color 0.3s ease;
+      min-width: 150px;
+    }
+
+    .add-tab-form select:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .add-tab-form button {
+      padding: 10px 20px;
+      background-color: #667eea;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .add-tab-form button:hover {
+      background-color: #5568d3;
+    }
+
+    .create-group-btn {
+      padding: 10px 20px;
+      background-color: #10b981;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .create-group-btn:hover {
+      background-color: #059669;
+    }
+
+    .groups-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .groups-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .group-container {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: calc(50% - 10px);
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 300px;
+    }
+
+    .group-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #e5e7eb;
+    }
+
+    .group-title {
+      font-size: 24px;
+      font-weight: bold;
+      color: #667eea;
+    }
+
+    .group-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .open-group-btn {
+      padding: 8px;
+      background-color: #10b981;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+    }
+
+    .open-group-btn:hover {
+      background-color: #059669;
+    }
+
+    .open-group-btn svg {
+      width: 16px;
+      height: 16px;
+      stroke: white;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .delete-group-btn {
+      padding: 8px 16px;
+      background-color: #ef4444;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .delete-group-btn:hover {
+      background-color: #dc2626;
+    }
+
+    .group-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      min-height: 200px;
+      flex: 1;
+    }
+
+    .group-tabs .tab-card {
+      width: 350px;
+      flex-shrink: 0;
+    }
+
+    .ungrouped-section {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .ungrouped-title {
+      color: white;
+      font-size: 24px;
+      margin-bottom: 15px;
+      padding-left: 0;
+      font-weight: bold;
+    }
+
+    #ungroupedTabsContainer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .ungrouped-section .tab-card {
+      width: 350px;
+      flex-shrink: 0;
+    }
+
+    .tab-card.dragging {
+      opacity: 0.5;
+    }
+
+    .group-tabs.drag-over {
+      background-color: rgba(102, 126, 234, 0.1);
+      border: 2px dashed #667eea;
+      border-radius: 8px;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <h1>Pestañas Guardadas</h1>
-      <div id="actionsBar" class="actions-bar">
-        <span id="selectedCount" class="selected-count"></span>
-        <button id="deselectBtn" class="deselect-btn">Deseleccionar</button>
-        <button id="openSelectedBtn" class="action-btn open">Abrir seleccionadas</button>
-        <button id="deleteSelectedBtn" class="action-btn delete">Eliminar seleccionadas</button>
+      <div class="header-left">
+        <h1 id="pageTitle"></h1>
+      </div>
+      <div class="header-controls">
+        <div id="actionsBar" class="actions-bar">
+          <span id="selectedCount" class="selected-count"></span>
+          <button id="deselectBtn" class="deselect-btn"></button>
+          <button id="openSelectedBtn" class="action-btn open"></button>
+          <button id="deleteSelectedBtn" class="action-btn delete"></button>
+        </div>
+        <button class="toggle-add-tab-btn" id="toggleAddTabBtn"></button>
+        <button class="create-group-btn" id="createGroupBtn"></button>
       </div>
     </div>
+
+    <div class="controls-section" id="controlsSection">
+      <div class="add-tab-form">
+        <input type="url" id="tabUrlInput" placeholder="">
+        <select id="groupSelect">
+          <option value=""></option>
+        </select>
+        <button id="addTabBtn"></button>
+      </div>
+    </div>
+
     <div id="tabsContainer"></div>
   </div>
+  <script src="i18n.js"></script>
   <script src="newtab.js"></script>
 </body>
 </html>

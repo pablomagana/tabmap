@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Guardador de Pestañas</title>
+  <title>TabMap</title>
   <style>
     body {
       width: 300px;
@@ -16,8 +16,9 @@
     h1 {
       font-size: 18px;
       color: white;
-      margin: 0 0 20px 0;
+      margin: 0;
       text-align: center;
+      padding-right: 30px;
     }
 
     button {
@@ -51,12 +52,109 @@
       font-size: 14px;
       min-height: 20px;
     }
+
+    #createGroupBtn {
+      margin-top: 10px;
+      background-color: rgba(255, 255, 255, 0.9);
+    }
+
+    .groups-section {
+      margin-top: 20px;
+    }
+
+    .groups-title {
+      color: white;
+      font-size: 14px;
+      margin-bottom: 10px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .group-btn {
+      width: 100%;
+      padding: 10px;
+      background-color: rgba(255, 255, 255, 0.85);
+      color: #667eea;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .group-btn:hover {
+      background-color: rgba(255, 255, 255, 1);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    .header {
+      position: relative;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .header h1 {
+      margin: 0;
+      text-align: center;
+    }
+
+    .open-dashboard-btn {
+      position: absolute;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+      cursor: pointer;
+      padding: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      border-radius: 6px;
+      width: 28px;
+      height: 28px;
+    }
+
+    .open-dashboard-btn:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-50%) scale(1.05);
+    }
+
+    .open-dashboard-btn svg {
+      width: 16px;
+      height: 16px;
+      stroke: white;
+      fill: none;
+      stroke-width: 2;
+    }
   </style>
 </head>
 <body>
-  <h1>TabMap</h1>
-  <button id="saveTabsBtn">Guardar Pestañas Abiertas</button>
+  <div class="header">
+    <h1 id="appTitle"></h1>
+    <button id="openDashboardBtn" class="open-dashboard-btn" title="">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <rect x="3" y="3" width="7" height="7" rx="1"/>
+        <rect x="14" y="3" width="7" height="7" rx="1"/>
+        <rect x="14" y="14" width="7" height="7" rx="1"/>
+        <rect x="3" y="14" width="7" height="7" rx="1"/>
+      </svg>
+    </button>
+  </div>
+  <button id="saveTabsBtn"></button>
+  <button id="createGroupBtn"></button>
   <div id="status"></div>
+  <div class="groups-section">
+    <div class="groups-title" id="groupsTitle"></div>
+    <div id="groupsList"></div>
+  </div>
+  <script src="i18n.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>
